@@ -9,5 +9,8 @@ func main() {
 			"message": true,
 		})
 	})
+
+	CategoryRoutes(router)
+
 	router.Run(":8080")
 }

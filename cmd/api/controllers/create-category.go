@@ -1,8 +1,10 @@
 package controllers
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
-	useCases "github.com/henriquepermartins/categories-ms/internal/use-cases"
+	useCase "github.com/henriquepermartins/categories-ms/internal/use-cases"
 )
 
 type createCategoryInput struct {
@@ -10,6 +12,21 @@ type createCategoryInput struct {
 }
 
 func CreateCategory(context *gin.Context) {
-	useCases.NewCreateCategoryUseCase().Execute(context.Param("name"))
+	var body createCategoryInput
 
+	if err := context.ShouldBindJSON(&body); err != nil {
+		context.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"sucess": false, "error": err.Error()})
+		return
+	}
+
+	useCase := useCase.NewCreateCategoryUseCase()
+
+	err := useCase.Execute(body.Name)
+
+	if err != nil {
+		context.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"sucess": false, "error": err.Error()})
+		return
+	}
+
+	context.JSON(http.StatusCreated, gin.H{"sucess": true})
 }

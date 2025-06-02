@@ -1,4 +1,4 @@
-package useCases
+package useCase
 
 import (
 	"log"
