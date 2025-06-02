@@ -17,3 +17,7 @@ func (r *categoryRepository) Save(category *entities.Category) error {
 
 	return nil
 }
+
+func (r *categoryRepository) List() ([]*entities.Category, error) {
+	return r.db, nil
+}

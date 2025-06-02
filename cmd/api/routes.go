@@ -10,9 +10,13 @@ func CategoryRoutes(router *gin.Engine) {
 	categoryRoutes := router.Group("/categories")
 
 	categoryRepository := repositories.NewCategoryRepository()
-	
+
 	categoryRoutes.POST("/", func(ctx *gin.Context) {
 		controllers.CreateCategory(ctx, categoryRepository)
+	})
+
+	categoryRoutes.GET("/", func(ctx *gin.Context) {
+		controllers.ListCategories(ctx, categoryRepository)
 	})
 
 }

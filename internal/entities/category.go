@@ -29,7 +29,7 @@ func NewCategory(name string) (*Category, error) {
 }
 
 func (c *Category) Validate() error {
-	if len(c.Name) < 5 {
+	if len(c.Name) < 1 {
 		return fmt.Errorf("name must be at least 5 characters. got: %d", len(c.Name))
 	}
 
