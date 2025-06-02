@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/henriquepermartins/categories-ms/internal/repositories"
 	useCase "github.com/henriquepermartins/categories-ms/internal/use-cases"
 )
 
@@ -11,7 +12,7 @@ type createCategoryInput struct {
 	Name string `json:"name" binding:"required"`
 }
 
-func CreateCategory(context *gin.Context) {
+func CreateCategory(context *gin.Context, repository repositories.CategoryRepositoryInterface) {
 	var body createCategoryInput
 
 	if err := context.ShouldBindJSON(&body); err != nil {
@@ -19,7 +20,7 @@ func CreateCategory(context *gin.Context) {
 		return
 	}
 
-	useCase := useCase.NewCreateCategoryUseCase()
+	useCase := useCase.NewCreateCategoryUseCase(repository)
 
 	err := useCase.Execute(body.Name)
 

@@ -4,14 +4,15 @@ import (
 	"log"
 
 	"github.com/henriquepermartins/categories-ms/internal/entities"
+	"github.com/henriquepermartins/categories-ms/internal/repositories"
 )
 
 type createCategoryUseCase struct {
-	// will receive db instance
+	categoryRepository repositories.CategoryRepositoryInterface
 }
 
-func NewCreateCategoryUseCase() *createCategoryUseCase {
-	return &createCategoryUseCase{}
+func NewCreateCategoryUseCase(repository repositories.CategoryRepositoryInterface) *createCategoryUseCase {
+	return &createCategoryUseCase{repository}
 }
 
 func (usecase *createCategoryUseCase) Execute(name string) error {
@@ -21,8 +22,12 @@ func (usecase *createCategoryUseCase) Execute(name string) error {
 		return err
 	}
 
-	// TODO: persist entity in db
 	log.Println(category)
+	err = usecase.categoryRepository.Save(category)
+
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

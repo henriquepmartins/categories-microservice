@@ -1,5 +1,7 @@
 package repositories
 
+import "github.com/henriquepermartins/categories-ms/internal/entities"
+
 type CategoryRepositoryInterface interface {
-	Save(name string) error
+	Save(category *entities.Category) error
 }
